@@ -16,8 +16,25 @@ const ImageUpload = ({ onImageSelect, selectedImage, className = '' }: ImageUplo
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		console.log('handleFileUpload called');
 		const file = event.target.files?.[0];
-		if (!file) return;
+		console.log('Selected file:', file);
+		if (!file) {
+			console.log('No file selected');
+			return;
+		}
+
+		// Validate file type
+		if (!file.type.startsWith('image/')) {
+			alert('Proszę wybrać plik obrazu (JPG, PNG, GIF)');
+			return;
+		}
+
+		// Validate file size (max 5MB)
+		if (file.size > 5 * 1024 * 1024) {
+			alert('Plik jest za duży. Maksymalny rozmiar to 5MB');
+			return;
+		}
 
 		setUploading(true);
 		const formData = new FormData();
@@ -26,21 +43,31 @@ const ImageUpload = ({ onImageSelect, selectedImage, className = '' }: ImageUplo
 		formData.append('description', '');
 
 		try {
+			console.log('Uploading file:', file.name, 'Size:', file.size, 'Type:', file.type);
+
 			const response = await fetch('/api/admin/images', {
 				method: 'POST',
 				body: formData,
 			});
 
+			console.log('Upload response status:', response.status);
+
 			if (response.ok) {
 				const newImage = await response.json();
+				console.log('Upload successful:', newImage);
 				onImageSelect(newImage.url);
 			} else {
 				const error = await response.json();
-				alert(`Błąd podczas przesyłania: ${error.error}`);
+				console.error('Upload error response:', error);
+				alert(`Błąd podczas przesyłania: ${error.error || 'Nieznany błąd'}`);
 			}
 		} catch (error) {
 			console.error('Upload error:', error);
-			alert('Błąd podczas przesyłania pliku');
+			alert(
+				`Błąd podczas przesyłania pliku: ${
+					error instanceof Error ? error.message : 'Nieznany błąd'
+				}`
+			);
 		} finally {
 			setUploading(false);
 			if (fileInputRef.current) {
@@ -94,7 +121,12 @@ const ImageUpload = ({ onImageSelect, selectedImage, className = '' }: ImageUplo
 
 			<div className="flex gap-2">
 				<button
-					onClick={() => fileInputRef.current?.click()}
+					type="button"
+					onClick={() => {
+						console.log('Upload button clicked');
+						console.log('File input ref:', fileInputRef.current);
+						fileInputRef.current?.click();
+					}}
 					disabled={uploading}
 					className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 transition-colors">
 					<Upload size={16} />
@@ -102,6 +134,7 @@ const ImageUpload = ({ onImageSelect, selectedImage, className = '' }: ImageUplo
 				</button>
 
 				<button
+					type="button"
 					onClick={handleGalleryOpen}
 					className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
 					<ImageIcon size={16} />
@@ -119,7 +152,10 @@ const ImageUpload = ({ onImageSelect, selectedImage, className = '' }: ImageUplo
 				ref={fileInputRef}
 				type="file"
 				accept="image/*"
-				onChange={handleFileUpload}
+				onChange={(e) => {
+					console.log('File input onChange triggered');
+					handleFileUpload(e);
+				}}
 				className="hidden"
 			/>
 

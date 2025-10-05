@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
 import { Project } from '@/lib/models/PageData';
 import ImageUpload from '@/components/ImageUpload';
+import { EmojiPicker } from '@/components/EmojiPicker';
 
 const ProjectsManager = () => {
 	const [projects, setProjects] = useState<Project[]>([]);
@@ -466,11 +467,10 @@ const ProjectsManager = () => {
 										<label className="block text-sm font-medium text-gray-700 mb-2">
 											Ikona (emoji)
 										</label>
-										<input
-											type="text"
-											value={formData.icon}
-											onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-											className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+										<EmojiPicker
+											onEmojiSelect={(emoji) => setFormData({ ...formData, icon: emoji })}
+											selectedEmoji={formData.icon}
+											className="w-full"
 										/>
 									</div>
 								</div>
@@ -497,7 +497,10 @@ const ProjectsManager = () => {
 										Zdjęcie projektu (cover photo)
 									</label>
 									<ImageUpload
-										onImageSelect={(imageUrl) => setFormData({ ...formData, image: imageUrl })}
+										onImageSelect={(imageUrl) => {
+											console.log('Image selected in projects:', imageUrl);
+											setFormData({ ...formData, image: imageUrl });
+										}}
 										selectedImage={formData.image}
 									/>
 								</div>

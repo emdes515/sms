@@ -107,22 +107,26 @@ const Partners = () => {
 				</div>
 
 				{/* Partners Grid */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16 partners-grid">
 					{partners.map((partner, index) => (
 						<div
 							key={partner._id || index}
-							className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300">
-							<div className="text-center">
-								<div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+							className="bg-gray-50 rounded-2xl p-6 lg:p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full partner-tile">
+							<div className="text-center flex flex-col h-full partner-content">
+								<div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4 flex-shrink-0">
 									<span className="text-primary-600 font-bold text-lg">
 										{partner.logo || partner.name.charAt(0)}
 									</span>
 								</div>
-								<h3 className="text-xl font-bold text-gray-900 mb-2">{partner.name}</h3>
-								<span className="inline-block bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+								<h3 className="text-xl font-bold text-gray-900 mb-2 flex-shrink-0">
+									{partner.name}
+								</h3>
+								<span className="inline-block bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium mb-4 flex-shrink-0">
 									{partner.category}
 								</span>
-								<p className="text-gray-600 leading-relaxed">{partner.description}</p>
+								<p className="text-gray-600 leading-relaxed flex-grow partner-description">
+									{partner.description}
+								</p>
 							</div>
 						</div>
 					))}

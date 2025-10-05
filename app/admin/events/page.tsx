@@ -16,6 +16,7 @@ const EventsManager = () => {
 	const [formData, setFormData] = useState({
 		title: '',
 		date: '',
+		time: '',
 		location: '',
 		description: '',
 		image: '',
@@ -31,7 +32,47 @@ const EventsManager = () => {
 			const response = await fetch('/api/admin/events');
 			if (response.ok) {
 				const data = await response.json();
-				setEvents(data);
+
+				// Check for past events and auto-archive them
+				const today = new Date();
+				today.setHours(0, 0, 0, 0); // Reset time to start of day
+
+				const eventsToArchive = data.filter((event: Event) => {
+					if (!event.isActive) return false; // Skip already archived events
+
+					const eventDate = new Date(event.date);
+					eventDate.setHours(0, 0, 0, 0); // Reset time to start of day
+
+					return eventDate < today;
+				});
+
+				// Archive past events
+				if (eventsToArchive.length > 0) {
+					console.log(`Auto-archiving ${eventsToArchive.length} past events`);
+
+					for (const event of eventsToArchive) {
+						try {
+							await fetch(`/api/admin/events/${event._id}`, {
+								method: 'PUT',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({ isActive: false }),
+							});
+						} catch (error) {
+							console.error(`Error archiving event ${event._id}:`, error);
+						}
+					}
+
+					// Refresh events after archiving
+					const refreshResponse = await fetch('/api/admin/events');
+					if (refreshResponse.ok) {
+						const refreshedData = await refreshResponse.json();
+						setEvents(refreshedData);
+					}
+				} else {
+					setEvents(data);
+				}
 			}
 		} catch (error) {
 			console.error('Error fetching events:', error);
@@ -79,6 +120,7 @@ const EventsManager = () => {
 		setFormData({
 			title: event.title,
 			date: event.date,
+			time: event.time || '',
 			location: event.location,
 			description: event.description,
 			image: event.image || '',
@@ -139,6 +181,7 @@ const EventsManager = () => {
 		setFormData({
 			title: '',
 			date: '',
+			time: '',
 			location: '',
 			description: '',
 			image: '',
@@ -210,6 +253,7 @@ const EventsManager = () => {
 										<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
 											<div>
 												<span className="font-medium">Data:</span> {event.date}
+												{event.time && <span className="ml-2 text-gray-500">({event.time})</span>}
 											</div>
 											<div>
 												<span className="font-medium">Lokalizacja:</span> {event.location}
@@ -286,6 +330,7 @@ const EventsManager = () => {
 											<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-500">
 												<div>
 													<span className="font-medium">Data:</span> {event.date}
+													{event.time && <span className="ml-2 text-gray-400">({event.time})</span>}
 												</div>
 												<div>
 													<span className="font-medium">Lokalizacja:</span> {event.location}
@@ -365,7 +410,7 @@ const EventsManager = () => {
 									/>
 								</div>
 
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 									<div>
 										<label className="block text-sm font-medium text-gray-700 mb-2">Data *</label>
 										<input
@@ -373,6 +418,15 @@ const EventsManager = () => {
 											required
 											value={formData.date}
 											onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+											className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+										/>
+									</div>
+									<div>
+										<label className="block text-sm font-medium text-gray-700 mb-2">Godzina</label>
+										<input
+											type="time"
+											value={formData.time}
+											onChange={(e) => setFormData({ ...formData, time: e.target.value })}
 											className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
 										/>
 									</div>

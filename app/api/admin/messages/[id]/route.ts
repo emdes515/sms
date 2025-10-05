@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateContactMessage } from '@/lib/models/PageData';
+import { updateContactMessage, deleteContactMessage } from '@/lib/models/PageData';
 import { cookies } from 'next/headers';
 
 async function verifyAdminSession() {
@@ -20,6 +20,22 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 		console.error('Error updating message:', error);
 		return NextResponse.json(
 			{ message: 'Wystąpił błąd podczas aktualizacji wiadomości' },
+			{ status: 500 }
+		);
+	}
+}
+
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+	if (!(await verifyAdminSession())) {
+		return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+	}
+	try {
+		await deleteContactMessage(params.id);
+		return NextResponse.json({ message: 'Wiadomość usunięta pomyślnie' });
+	} catch (error) {
+		console.error('Error deleting message:', error);
+		return NextResponse.json(
+			{ message: 'Wystąpił błąd podczas usuwania wiadomości' },
 			{ status: 500 }
 		);
 	}

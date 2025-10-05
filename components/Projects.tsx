@@ -3,6 +3,7 @@
 import { Calendar, Users, MapPin, ArrowRight, BookOpen, Heart, Globe, Zap } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Project, Event, Partner, Ward } from '@/lib/models/PageData';
+import ScrollAnimation from './ScrollAnimation';
 
 const Projects = () => {
 	const [activeTab, setActiveTab] = useState('projects');
@@ -112,96 +113,147 @@ const Projects = () => {
 			className="py-20 bg-white">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div className="text-center mb-16">
-					<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nasze działania</h2>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
-						Realizujemy różnorodne projekty i inicjatywy, które rozwijają umiejętności młodych ludzi
-						i pozytywnie wpływają na społeczność lokalną.
-					</p>
+				<ScrollAnimation
+					animation="fadeInUp"
+					delay={0.2}>
+					<div className="text-center mb-16">
+						<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nasze działania</h2>
+						<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+							Realizujemy różnorodne projekty i inicjatywy, które rozwijają umiejętności młodych
+							ludzi i pozytywnie wpływają na społeczność lokalną.
+						</p>
 
-					{/* Tabs */}
-					<div className="flex justify-center">
-						<div className="bg-gray-100 rounded-full p-1 inline-flex">
-							<button
-								onClick={() => setActiveTab('projects')}
-								className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-									activeTab === 'projects'
-										? 'bg-primary-600 text-white shadow-lg'
-										: 'text-gray-600 hover:text-gray-900'
-								}`}>
-								Projekty
-							</button>
-							<button
-								onClick={() => setActiveTab('events')}
-								className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-									activeTab === 'events'
-										? 'bg-primary-600 text-white shadow-lg'
-										: 'text-gray-600 hover:text-gray-900'
-								}`}>
-								Wydarzenia
-							</button>
-							<button
-								onClick={() => setActiveTab('wards')}
-								className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-									activeTab === 'wards'
-										? 'bg-primary-600 text-white shadow-lg'
-										: 'text-gray-600 hover:text-gray-900'
-								}`}>
-								Podopieczni
-							</button>
-							<button
-								onClick={() => setActiveTab('supporters')}
-								className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-									activeTab === 'supporters'
-										? 'bg-primary-600 text-white shadow-lg'
-										: 'text-gray-600 hover:text-gray-900'
-								}`}>
-								Partnerzy
-							</button>
+						{/* Tabs */}
+						<div className="flex justify-center">
+							{/* Desktop/Tablet Tabs - Horizontal */}
+							<div className="hidden sm:flex bg-gray-100 rounded-full p-1">
+								<button
+									onClick={() => setActiveTab('projects')}
+									className={`px-4 lg:px-6 py-2 lg:py-3 rounded-full font-medium transition-all duration-300 text-sm lg:text-base ${
+										activeTab === 'projects'
+											? 'bg-primary-600 text-white shadow-lg'
+											: 'text-gray-600 hover:text-gray-900'
+									}`}>
+									Projekty
+								</button>
+								<button
+									onClick={() => setActiveTab('events')}
+									className={`px-4 lg:px-6 py-2 lg:py-3 rounded-full font-medium transition-all duration-300 text-sm lg:text-base ${
+										activeTab === 'events'
+											? 'bg-primary-600 text-white shadow-lg'
+											: 'text-gray-600 hover:text-gray-900'
+									}`}>
+									Wydarzenia
+								</button>
+								<button
+									onClick={() => setActiveTab('wards')}
+									className={`px-4 lg:px-6 py-2 lg:py-3 rounded-full font-medium transition-all duration-300 text-sm lg:text-base ${
+										activeTab === 'wards'
+											? 'bg-primary-600 text-white shadow-lg'
+											: 'text-gray-600 hover:text-gray-900'
+									}`}>
+									Podopieczni
+								</button>
+								<button
+									onClick={() => setActiveTab('supporters')}
+									className={`px-4 lg:px-6 py-2 lg:py-3 rounded-full font-medium transition-all duration-300 text-sm lg:text-base ${
+										activeTab === 'supporters'
+											? 'bg-primary-600 text-white shadow-lg'
+											: 'text-gray-600 hover:text-gray-900'
+									}`}>
+									Partnerzy
+								</button>
+							</div>
+
+							{/* Mobile Tabs - Vertical Stack */}
+							<div className="sm:hidden w-full max-w-sm mx-auto projects-tabs">
+								<div className="bg-gray-100 rounded-2xl p-2 space-y-1">
+									<button
+										onClick={() => setActiveTab('projects')}
+										className={`w-full px-4 py-3 rounded-xl font-medium transition-all duration-300 text-sm ${
+											activeTab === 'projects'
+												? 'bg-primary-600 text-white shadow-lg'
+												: 'text-gray-600 hover:text-gray-900 hover:bg-white'
+										}`}>
+										Projekty
+									</button>
+									<button
+										onClick={() => setActiveTab('events')}
+										className={`w-full px-4 py-3 rounded-xl font-medium transition-all duration-300 text-sm ${
+											activeTab === 'events'
+												? 'bg-primary-600 text-white shadow-lg'
+												: 'text-gray-600 hover:text-gray-900 hover:bg-white'
+										}`}>
+										Wydarzenia
+									</button>
+									<button
+										onClick={() => setActiveTab('wards')}
+										className={`w-full px-4 py-3 rounded-xl font-medium transition-all duration-300 text-sm ${
+											activeTab === 'wards'
+												? 'bg-primary-600 text-white shadow-lg'
+												: 'text-gray-600 hover:text-gray-900 hover:bg-white'
+										}`}>
+										Podopieczni
+									</button>
+									<button
+										onClick={() => setActiveTab('supporters')}
+										className={`w-full px-4 py-3 rounded-xl font-medium transition-all duration-300 text-sm ${
+											activeTab === 'supporters'
+												? 'bg-primary-600 text-white shadow-lg'
+												: 'text-gray-600 hover:text-gray-900 hover:bg-white'
+										}`}>
+										Partnerzy
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</ScrollAnimation>
 
 				{/* Tab Content */}
 				{activeTab === 'projects' && (
 					<>
 						{/* Projects Grid */}
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
 							{projects.map((project, index) => (
-								<div
+								<ScrollAnimation
 									key={project._id || index}
-									className="bg-gray-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-									{project.image && (
+									animation="fadeInUp"
+									delay={0.4 + index * 0.1}
+									duration={0.6}>
+									<div className="bg-gray-50 rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+										{project.image && (
+											<div className="mb-6">
+												<img
+													src={project.image}
+													alt={project.title}
+													className="w-full h-48 object-cover rounded-xl"
+												/>
+											</div>
+										)}
 										<div className="mb-6">
-											<img
-												src={project.image}
-												alt={project.title}
-												className="w-full h-48 object-cover rounded-xl"
-											/>
+											<div className="flex items-center gap-3 mb-4">
+												{getProjectIcon(project.icon)}
+												<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
+													{project.category}
+												</span>
+											</div>
+											<h3 className="text-xl font-bold text-gray-900 mb-3">{project.title}</h3>
+											<p className="text-gray-600 leading-relaxed mb-4">{project.description}</p>
 										</div>
-									)}
-									<div className="mb-6">
-										<div className="flex items-center gap-3 mb-4">
-											{getProjectIcon(project.icon)}
-											<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
-												{project.category}
-											</span>
-										</div>
-										<h3 className="text-xl font-bold text-gray-900 mb-3">{project.title}</h3>
-										<p className="text-gray-600 leading-relaxed mb-4">{project.description}</p>
-									</div>
 
-									<div className="space-y-2 text-sm text-gray-500">
-										<div className="flex items-center gap-2">
-											<Users size={16} />
-											<span>{project.participants}</span>
-										</div>
-										<div className="flex items-center gap-2">
-											<Calendar size={16} />
-											<span>{project.duration}</span>
+										<div className="space-y-2 text-sm text-gray-500">
+											<div className="flex items-center gap-2">
+												<Users size={16} />
+												<span>{project.participants}</span>
+											</div>
+											<div className="flex items-center gap-2">
+												<Calendar size={16} />
+												<span>{project.duration}</span>
+											</div>
 										</div>
 									</div>
-								</div>
+								</ScrollAnimation>
 							))}
 						</div>
 
@@ -307,7 +359,10 @@ const Projects = () => {
 													className="text-white"
 													size={20}
 												/>
-												<span className="font-semibold">{event.date}</span>
+												<span className="font-semibold">
+													{event.date}
+													{event.time && <span className="ml-2 text-white/80">({event.time})</span>}
+												</span>
 											</div>
 											<h4 className="text-lg font-bold mb-2">{event.title}</h4>
 											<div className="flex items-center gap-2 mb-3 text-white/80">

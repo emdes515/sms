@@ -13,6 +13,9 @@ import {
 	GraduationCap,
 } from 'lucide-react';
 import { AboutData } from '@/lib/models/PageData';
+import AnimatedCounter from './AnimatedCounter';
+import ScrollAnimation from './ScrollAnimation';
+import ImageCarousel from './ImageCarousel';
 
 const About = () => {
 	const [aboutData, setAboutData] = useState<AboutData | null>(null);
@@ -146,6 +149,12 @@ const About = () => {
 							},
 						],
 					},
+					carousel: {
+						enabled: false,
+						autoplay: true,
+						autoplaySpeed: 5000,
+						images: [],
+					},
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				});
@@ -263,6 +272,12 @@ const About = () => {
 						},
 					],
 				},
+				carousel: {
+					enabled: false,
+					autoplay: true,
+					autoplaySpeed: 5000,
+					images: [],
+				},
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			});
@@ -316,54 +331,110 @@ const About = () => {
 			className="py-20 bg-gray-50">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div className="text-center mb-16">
-					<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{aboutData.title}</h2>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-						{aboutData.description}
-					</p>
-				</div>
-
-				{/* Mission Statement */}
-				<div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16">
-					<div className="text-center">
-						<h3 className="text-3xl font-bold text-gray-900 mb-6">{aboutData.mission.title}</h3>
-						<p className="text-xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
-							"{aboutData.mission.description}"
+				<ScrollAnimation
+					animation="fadeInUp"
+					delay={0.2}>
+					<div className="text-center mb-16">
+						<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{aboutData.title}</h2>
+						<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+							{aboutData.description}
 						</p>
 					</div>
-				</div>
+				</ScrollAnimation>
+
+				{/* Mission Statement */}
+				<ScrollAnimation
+					animation="fadeInUp"
+					delay={0.4}>
+					<div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16">
+						<div className="text-center">
+							<h3 className="text-3xl font-bold text-gray-900 mb-6">{aboutData.mission.title}</h3>
+							<p className="text-xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
+								"{aboutData.mission.description}"
+							</p>
+						</div>
+					</div>
+				</ScrollAnimation>
+
+				{/* Image Carousel */}
+				{aboutData.carousel &&
+					aboutData.carousel.enabled &&
+					aboutData.carousel.images &&
+					Array.isArray(aboutData.carousel.images) &&
+					aboutData.carousel.images.length > 0 && (
+						<ScrollAnimation
+							animation="fadeInUp"
+							delay={0.6}>
+							<div className="mb-16">
+								<div className="text-center mb-8">
+									<h3 className="text-3xl font-bold text-gray-900 mb-4">
+										Nasze działania w obrazach
+									</h3>
+									<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+										Zobacz jak wygląda nasza codzienna praca i zaangażowanie w rozwój młodych ludzi
+									</p>
+								</div>
+								<ImageCarousel
+									images={aboutData.carousel.images || []}
+									autoplay={aboutData.carousel.autoplay || true}
+									autoplaySpeed={aboutData.carousel.autoplaySpeed || 5000}
+									enabled={aboutData.carousel.enabled || false}
+								/>
+							</div>
+						</ScrollAnimation>
+					)}
 
 				{/* Values Grid */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
 					{aboutData.values.map((value, index) => (
-						<div
+						<ScrollAnimation
 							key={index}
-							className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-							<div className="text-center">
-								<div className="mb-4 flex justify-center">{getIconComponent(value.icon)}</div>
-								<h4 className="text-xl font-semibold text-gray-900 mb-3">{value.title}</h4>
-								<p className="text-gray-600 leading-relaxed">{value.description}</p>
+							animation="fadeInUp"
+							delay={0.6 + index * 0.1}>
+							<div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+								<div className="text-center">
+									<div className="mb-4 flex justify-center">{getIconComponent(value.icon)}</div>
+									<h4 className="text-xl font-semibold text-gray-900 mb-3">{value.title}</h4>
+									<p className="text-gray-600 leading-relaxed">{value.description}</p>
+								</div>
 							</div>
-						</div>
+						</ScrollAnimation>
 					))}
 				</div>
 
 				{/* Achievements */}
-				<div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-3xl p-8 md:p-12 text-white">
-					<div className="text-center mb-8">
-						<h3 className="text-3xl font-bold mb-4">{aboutData.achievements.title}</h3>
-						<p className="text-xl opacity-90">{aboutData.achievements.description}</p>
-					</div>
+				<ScrollAnimation
+					animation="fadeInUp"
+					delay={0.2}>
+					<div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-3xl p-8 md:p-12 text-white">
+						<div className="text-center mb-8">
+							<h3 className="text-3xl font-bold mb-4">{aboutData.achievements.title}</h3>
+							<p className="text-xl opacity-90">{aboutData.achievements.description}</p>
+						</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-						{aboutData.achievements.stats.map((stat, index) => (
-							<div key={index}>
-								<div className="text-4xl font-bold mb-2">{stat.value}</div>
-								<div className="text-lg opacity-90">{stat.label}</div>
-							</div>
-						))}
+						<div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
+							{aboutData.achievements.stats.map((stat, index) => (
+								<ScrollAnimation
+									key={index}
+									animation="scaleIn"
+									delay={0.3 + index * 0.1}
+									duration={0.6}>
+									<div>
+										<div className="text-2xl md:text-4xl font-bold mb-2">
+											<AnimatedCounter
+												value={parseInt(stat.value.replace(/\D/g, ''))}
+												suffix="+"
+												duration={1.5}
+												delay={0.4 + index * 0.15}
+											/>
+										</div>
+										<div className="text-sm md:text-lg opacity-90">{stat.label}</div>
+									</div>
+								</ScrollAnimation>
+							))}
+						</div>
 					</div>
-				</div>
+				</ScrollAnimation>
 
 				{/* Management Section */}
 				<div className="mt-16">

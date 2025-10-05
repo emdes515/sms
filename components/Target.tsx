@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { User, GraduationCap, Briefcase, Heart, Star, CheckCircle, ArrowRight } from 'lucide-react';
 import { TargetData } from '@/lib/models/PageData';
+import ScrollAnimation from './ScrollAnimation';
 
 const Target = () => {
 	const [targetData, setTargetData] = useState<TargetData | null>(null);
@@ -262,87 +263,110 @@ const Target = () => {
 			className="py-20 bg-gray-50">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div className="text-center mb-16">
-					<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{targetData.title}</h2>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-						{targetData.description}
-					</p>
-				</div>
+				<ScrollAnimation
+					animation="fadeInUp"
+					delay={0.2}>
+					<div className="text-center mb-16">
+						<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+							{targetData.title}
+						</h2>
+						<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+							{targetData.description}
+						</p>
+					</div>
+				</ScrollAnimation>
 
 				{/* Target Groups */}
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-16">
 					{targetData.targetGroups.map((group, index) => (
-						<div
+						<ScrollAnimation
 							key={index}
-							className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-							<div className="flex items-start gap-4 mb-6">
-								<div className="flex-shrink-0">{getIconComponent(group.icon)}</div>
-								<div>
-									<h3 className="text-2xl font-bold text-gray-900 mb-3">{group.title}</h3>
-									<p className="text-gray-600 leading-relaxed">{group.description}</p>
+							animation="fadeInUp"
+							delay={0.4 + index * 0.1}
+							duration={0.6}>
+							<div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+								<div className="flex items-start gap-4 mb-6">
+									<div className="flex-shrink-0">{getIconComponent(group.icon)}</div>
+									<div>
+										<h3 className="text-2xl font-bold text-gray-900 mb-3">{group.title}</h3>
+										<p className="text-gray-600 leading-relaxed">{group.description}</p>
+									</div>
+								</div>
+
+								<div className="space-y-3">
+									<h4 className="font-semibold text-gray-900 mb-3">Korzyści:</h4>
+									{group.benefits.map((benefit, benefitIndex) => (
+										<div
+											key={benefitIndex}
+											className="flex items-center gap-3">
+											<CheckCircle
+												className="text-green-500 flex-shrink-0"
+												size={20}
+											/>
+											<span className="text-gray-700">{benefit}</span>
+										</div>
+									))}
 								</div>
 							</div>
-
-							<div className="space-y-3">
-								<h4 className="font-semibold text-gray-900 mb-3">Korzyści:</h4>
-								{group.benefits.map((benefit, benefitIndex) => (
-									<div
-										key={benefitIndex}
-										className="flex items-center gap-3">
-										<CheckCircle
-											className="text-green-500 flex-shrink-0"
-											size={20}
-										/>
-										<span className="text-gray-700">{benefit}</span>
-									</div>
-								))}
-							</div>
-						</div>
+						</ScrollAnimation>
 					))}
 				</div>
 
 				{/* General Benefits */}
-				<div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16">
-					<div className="text-center mb-12">
-						<h3 className="text-3xl font-bold text-gray-900 mb-4">
-							Dlaczego warto do nas dołączyć?
-						</h3>
-						<p className="text-xl text-gray-600">
-							Niezależnie od tego, kim jesteś, znajdziesz u nas miejsce do rozwoju i realizacji
-							swoich celów
-						</p>
-					</div>
+				<ScrollAnimation
+					animation="fadeInUp"
+					delay={0.6}>
+					<div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16">
+						<div className="text-center mb-12">
+							<h3 className="text-3xl font-bold text-gray-900 mb-4">
+								Dlaczego warto do nas dołączyć?
+							</h3>
+							<p className="text-xl text-gray-600">
+								Niezależnie od tego, kim jesteś, znajdziesz u nas miejsce do rozwoju i realizacji
+								swoich celów
+							</p>
+						</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-						{targetData.generalBenefits.map((benefit, index) => (
-							<div
-								key={index}
-								className="text-center">
-								<div className="mb-4 flex justify-center">
-									{getGeneralBenefitIcon(benefit.icon)}
-								</div>
-								<h4 className="text-lg font-semibold text-gray-900 mb-3">{benefit.title}</h4>
-								<p className="text-gray-600 leading-relaxed">{benefit.description}</p>
-							</div>
-						))}
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+							{targetData.generalBenefits.map((benefit, index) => (
+								<ScrollAnimation
+									key={index}
+									animation="scaleIn"
+									delay={0.8 + index * 0.1}>
+									<div className="text-center">
+										<div className="mb-4 flex justify-center">
+											{getGeneralBenefitIcon(benefit.icon)}
+										</div>
+										<h4 className="text-lg font-semibold text-gray-900 mb-3">{benefit.title}</h4>
+										<p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+									</div>
+								</ScrollAnimation>
+							))}
+						</div>
 					</div>
-				</div>
+				</ScrollAnimation>
 
 				{/* CTA Section */}
-				<div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-3xl p-8 md:p-12 text-white text-center">
-					<h3 className="text-3xl font-bold mb-4">{targetData.cta.title}</h3>
-					<p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">{targetData.cta.description}</p>
+				<ScrollAnimation
+					animation="fadeInUp"
+					delay={0.8}>
+					<div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-3xl p-8 md:p-12 text-white text-center">
+						<h3 className="text-3xl font-bold mb-4">{targetData.cta.title}</h3>
+						<p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+							{targetData.cta.description}
+						</p>
 
-					<div className="flex flex-col sm:flex-row gap-4 justify-center">
-						<button className="bg-white text-primary-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-primary-50 transition-colors duration-300 flex items-center gap-2 justify-center">
-							{targetData.cta.primaryButton}
-							<ArrowRight size={20} />
-						</button>
-						<button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-primary-600 transition-colors duration-300">
-							{targetData.cta.secondaryButton}
-						</button>
+						<div className="flex flex-col sm:flex-row gap-4 justify-center">
+							<button className="bg-white text-primary-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-primary-50 transition-colors duration-300 flex items-center gap-2 justify-center">
+								{targetData.cta.primaryButton}
+								<ArrowRight size={20} />
+							</button>
+							<button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-primary-600 transition-colors duration-300">
+								{targetData.cta.secondaryButton}
+							</button>
+						</div>
 					</div>
-				</div>
+				</ScrollAnimation>
 			</div>
 		</section>
 	);

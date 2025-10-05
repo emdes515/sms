@@ -167,6 +167,7 @@ export default function FooterAdminPage() {
 				{ name: 'LinkedIn', url: '#' },
 				{ name: 'YouTube', url: '#' },
 			],
+			krs: '0001234567',
 			copyright: '© 2024 Stowarzyszenie Młoda Siła. Wszystkie prawa zastrzeżone.',
 			createdAt: new Date(),
 			updatedAt: new Date(),
@@ -303,6 +304,21 @@ export default function FooterAdminPage() {
 										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
 									/>
 								</div>
+							</div>
+						</div>
+
+						{/* KRS */}
+						<div className="space-y-4">
+							<h2 className="text-lg font-semibold text-gray-900">KRS</h2>
+							<div>
+								<label className="block text-sm font-medium text-gray-700 mb-2">Numer KRS</label>
+								<input
+									type="text"
+									value={footerData?.krs || ''}
+									onChange={(e) => updateField('krs', e.target.value)}
+									placeholder="0001234567"
+									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+								/>
 							</div>
 						</div>
 

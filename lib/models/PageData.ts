@@ -19,6 +19,7 @@ export interface Event {
 	_id?: string;
 	title: string;
 	date: string;
+	time?: string;
 	location: string;
 	description: string;
 	image?: string;
@@ -109,6 +110,19 @@ export interface AboutData {
 			education: string;
 		}>;
 	};
+	carousel: {
+		enabled: boolean;
+		autoplay: boolean;
+		autoplaySpeed: number; // w milisekundach
+		images: Array<{
+			_id?: string;
+			url: string;
+			alt: string;
+			title?: string;
+			description?: string;
+			order: number;
+		}>;
+	};
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -128,8 +142,9 @@ export interface ContactData {
 		url: string;
 		icon: string;
 	}>;
-	newsletter: {
+	supportLink: {
 		title: string;
+		url: string;
 		description: string;
 	};
 	createdAt: Date;
@@ -188,7 +203,20 @@ export interface FooterData {
 		name: string;
 		url: string;
 	}>;
+	krs: string;
 	copyright: string;
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export interface NotificationSettings {
+	_id?: string | null;
+	emailNotifications: {
+		enabled: boolean;
+		adminEmail: string;
+		subject: string;
+		template: string;
+	};
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -417,6 +445,13 @@ export const updateContactMessage = async (
 		{ _id: new ObjectId(id) },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
+};
+
+export const deleteContactMessage = async (id: string): Promise<void> => {
+	const db = await getDatabase();
+	const messages = db.collection<ContactMessage>('contact_messages');
+	const { ObjectId } = await import('mongodb');
+	await messages.deleteOne({ _id: new ObjectId(id) });
 };
 
 // Hero Data
@@ -710,5 +745,54 @@ export const deleteWard = async (id: string): Promise<void> => {
 	await wards.updateOne(
 		{ _id: new ObjectId(id) },
 		{ $set: { isActive: false, updatedAt: new Date() } }
+	);
+};
+
+// Notification Settings
+export const getNotificationSettings = async (): Promise<NotificationSettings | null> => {
+	const db = await getDatabase();
+	const settings = db.collection<NotificationSettings>('notification_settings');
+	const result = await settings.findOne({});
+	return result
+		? {
+				...result,
+				_id: result._id?.toString(),
+		  }
+		: null;
+};
+
+export const createNotificationSettings = async (
+	settingsData: Omit<NotificationSettings, '_id' | 'createdAt' | 'updatedAt'>
+): Promise<NotificationSettings> => {
+	const db = await getDatabase();
+	const settingsCollection = db.collection<NotificationSettings>('notification_settings');
+
+	// Remove _id if it's null or empty
+	const { _id, ...cleanSettingsData } = settingsData as any;
+
+	const newSettings: Omit<NotificationSettings, '_id'> = {
+		...cleanSettingsData,
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	};
+
+	const result = await settingsCollection.insertOne(newSettings);
+	return { ...newSettings, _id: result.insertedId.toString() };
+};
+
+export const updateNotificationSettings = async (
+	id: string,
+	settingsData: Partial<Omit<NotificationSettings, '_id' | 'createdAt'>>
+): Promise<void> => {
+	const db = await getDatabase();
+	const settingsCollection = db.collection<NotificationSettings>('notification_settings');
+	const { ObjectId } = await import('mongodb');
+
+	// Remove _id from settingsData to avoid updating immutable field
+	const { _id, ...updateData } = settingsData as any;
+
+	await settingsCollection.updateOne(
+		{ _id: new ObjectId(id) },
+		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };

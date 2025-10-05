@@ -18,12 +18,21 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
 	try {
+		console.log('Image upload API called');
 		const formData = await request.formData();
 		const file = formData.get('file') as File;
 		const title = formData.get('title') as string;
 		const description = formData.get('description') as string;
 
+		console.log(
+			'File received:',
+			file ? { name: file.name, size: file.size, type: file.type } : 'No file'
+		);
+		console.log('Title:', title);
+		console.log('Description:', description);
+
 		if (!file) {
+			console.log('No file provided');
 			return NextResponse.json({ error: 'No file provided' }, { status: 400 });
 		}
 
@@ -39,7 +48,9 @@ export async function POST(request: NextRequest) {
 
 		// Create uploads directory if it doesn't exist
 		const uploadsDir = join(process.cwd(), 'public', 'uploads');
+		console.log('Uploads directory:', uploadsDir);
 		if (!existsSync(uploadsDir)) {
+			console.log('Creating uploads directory');
 			await mkdir(uploadsDir, { recursive: true });
 		}
 
@@ -48,13 +59,16 @@ export async function POST(request: NextRequest) {
 		const fileExtension = file.name.split('.').pop();
 		const filename = `${timestamp}-${Math.random().toString(36).substring(2)}.${fileExtension}`;
 		const filepath = join(uploadsDir, filename);
+		console.log('Saving file to:', filepath);
 
 		// Save file
 		const bytes = await file.arrayBuffer();
 		const buffer = Buffer.from(bytes);
 		await writeFile(filepath, buffer);
+		console.log('File saved successfully');
 
 		// Save to database
+		console.log('Connecting to database');
 		const db = await getDatabase();
 		const imageData = {
 			filename,
@@ -67,12 +81,16 @@ export async function POST(request: NextRequest) {
 			createdAt: new Date(),
 		};
 
+		console.log('Saving to database:', imageData);
 		const result = await db.collection('images').insertOne(imageData);
+		console.log('Database save result:', result);
 
-		return NextResponse.json({
+		const response = {
 			...imageData,
 			_id: result.insertedId,
-		});
+		};
+		console.log('Returning response:', response);
+		return NextResponse.json(response);
 	} catch (error) {
 		console.error('Error uploading image:', error);
 		return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });

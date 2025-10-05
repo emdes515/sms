@@ -11,6 +11,7 @@ import {
 	Target,
 	FileText,
 } from 'lucide-react';
+import AnimatedCounter from '@/components/AnimatedCounter';
 
 interface DashboardStats {
 	projects: number;
@@ -124,7 +125,13 @@ const AdminDashboard = () => {
 								</div>
 								<div className="ml-4">
 									<p className="text-sm font-medium text-gray-600">{stat.title}</p>
-									<p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
+									<p className="text-2xl font-semibold text-gray-900">
+										<AnimatedCounter
+											value={stat.value}
+											duration={1.2}
+											delay={index * 0.15}
+										/>
+									</p>
 								</div>
 							</div>
 						</a>

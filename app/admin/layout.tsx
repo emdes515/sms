@@ -17,6 +17,8 @@ import {
 	FileText,
 	Image,
 	Heart,
+	Bell,
+	Sliders,
 } from 'lucide-react';
 import { NotificationProvider } from '@/components/NotificationSystem';
 
@@ -74,6 +76,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 		{ href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
 		{ href: '/admin/hero', label: 'Tekst główny', icon: Edit3 },
 		{ href: '/admin/about', label: 'O nas', icon: Info },
+		{ href: '/admin/carousel', label: 'Karuzela', icon: Sliders },
 		{ href: '/admin/contact', label: 'Kontakt', icon: Phone },
 		{ href: '/admin/target', label: 'Dla kogo', icon: Target },
 		{ href: '/admin/footer', label: 'Stopka', icon: FileText },
@@ -83,6 +86,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 		{ href: '/admin/wards', label: 'Podopieczni', icon: Heart },
 		{ href: '/admin/partners', label: 'Partnerzy', icon: Users },
 		{ href: '/admin/messages', label: 'Wiadomości', icon: MessageSquare },
+		{ href: '/admin/notifications', label: 'Powiadomienia', icon: Bell },
 	];
 
 	return (

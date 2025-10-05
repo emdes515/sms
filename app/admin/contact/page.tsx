@@ -198,9 +198,10 @@ export default function ContactAdminPage() {
 				{ name: 'LinkedIn', url: '#', icon: 'Linkedin' },
 				{ name: 'YouTube', url: '#', icon: 'Youtube' },
 			],
-			newsletter: {
-				title: 'Newsletter',
-				description: 'Bądź na bieżąco z naszymi działaniami i nadchodzącymi wydarzeniami',
+			supportLink: {
+				title: 'Wesprzyj nas',
+				url: '#',
+				description: 'Pomóż nam rozwijać nasze działania',
 			},
 			createdAt: new Date(),
 			updatedAt: new Date(),
@@ -418,23 +419,32 @@ export default function ContactAdminPage() {
 							))}
 						</div>
 
-						{/* Newsletter */}
+						{/* Support Link */}
 						<div className="space-y-4">
-							<h2 className="text-lg font-semibold text-gray-900">Newsletter</h2>
+							<h2 className="text-lg font-semibold text-gray-900">Link wsparcia</h2>
 							<div>
 								<label className="block text-sm font-medium text-gray-700 mb-2">Tytuł</label>
 								<input
 									type="text"
-									value={contactData?.newsletter.title || ''}
-									onChange={(e) => updateField('newsletter.title', e.target.value)}
+									value={contactData?.supportLink.title || ''}
+									onChange={(e) => updateField('supportLink.title', e.target.value)}
+									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+								/>
+							</div>
+							<div>
+								<label className="block text-sm font-medium text-gray-700 mb-2">URL</label>
+								<input
+									type="url"
+									value={contactData?.supportLink.url || ''}
+									onChange={(e) => updateField('supportLink.url', e.target.value)}
 									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
 								/>
 							</div>
 							<div>
 								<label className="block text-sm font-medium text-gray-700 mb-2">Opis</label>
 								<textarea
-									value={contactData?.newsletter.description || ''}
-									onChange={(e) => updateField('newsletter.description', e.target.value)}
+									value={contactData?.supportLink.description || ''}
+									onChange={(e) => updateField('supportLink.description', e.target.value)}
 									rows={3}
 									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
 								/>

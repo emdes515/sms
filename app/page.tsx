@@ -49,6 +49,7 @@ export default function Home() {
 						{ name: 'LinkedIn', url: '#' },
 						{ name: 'YouTube', url: '#' },
 					],
+					krs: '0001234567',
 					copyright: '© 2024 Stowarzyszenie Młoda Siła. Wszystkie prawa zastrzeżone.',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -79,6 +80,7 @@ export default function Home() {
 					{ name: 'LinkedIn', url: '#' },
 					{ name: 'YouTube', url: '#' },
 				],
+				krs: '0001234567',
 				copyright: '© 2024 Stowarzyszenie Młoda Siła. Wszystkie prawa zastrzeżone.',
 				createdAt: new Date(),
 				updatedAt: new Date(),
@@ -152,10 +154,13 @@ export default function Home() {
 					</div>
 
 					<div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-						<p>
-							{footerData?.copyright ||
-								'© 2024 Stowarzyszenie Młoda Siła. Wszystkie prawa zastrzeżone.'}
-						</p>
+						<div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+							<p>
+								{footerData?.copyright ||
+									'© 2024 Stowarzyszenie Młoda Siła. Wszystkie prawa zastrzeżone.'}
+							</p>
+							{footerData?.krs && <p className="text-sm">KRS: {footerData.krs}</p>}
+						</div>
 					</div>
 				</div>
 			</footer>

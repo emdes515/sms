@@ -51,6 +51,11 @@ const MessagesManager = () => {
 	};
 
 	const handleDelete = async (id: string) => {
+		if (!id) {
+			setMessage('Błąd: Brak ID wiadomości');
+			return;
+		}
+
 		if (!confirm('Czy na pewno chcesz usunąć tę wiadomość?')) return;
 
 		try {
@@ -61,11 +66,14 @@ const MessagesManager = () => {
 			if (response.ok) {
 				setMessage('Wiadomość usunięta!');
 				fetchMessages();
+				setSelectedMessage(null);
 				setTimeout(() => setMessage(''), 3000);
 			} else {
-				setMessage('Wystąpił błąd podczas usuwania');
+				const errorData = await response.json();
+				setMessage(`Wystąpił błąd podczas usuwania: ${errorData.message || 'Nieznany błąd'}`);
 			}
 		} catch (error) {
+			console.error('Delete error:', error);
 			setMessage('Wystąpił błąd podczas usuwania');
 		}
 	};

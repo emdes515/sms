@@ -56,9 +56,10 @@ const Contact = () => {
 						{ name: 'LinkedIn', url: '#', icon: 'Linkedin' },
 						{ name: 'YouTube', url: '#', icon: 'Youtube' },
 					],
-					newsletter: {
-						title: 'Newsletter',
-						description: 'Bądź na bieżąco z naszymi działaniami i nadchodzącymi wydarzeniami',
+					supportLink: {
+						title: 'Wesprzyj nas',
+						url: '#',
+						description: 'Pomóż nam rozwijać nasze działania',
 					},
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -84,9 +85,10 @@ const Contact = () => {
 					{ name: 'LinkedIn', url: '#', icon: 'Linkedin' },
 					{ name: 'YouTube', url: '#', icon: 'Youtube' },
 				],
-				newsletter: {
-					title: 'Newsletter',
-					description: 'Bądź na bieżąco z naszymi działaniami i nadchodzącymi wydarzeniami',
+				supportLink: {
+					title: 'Wesprzyj nas',
+					url: '#',
+					description: 'Pomóż nam rozwijać nasze działania',
 				},
 				createdAt: new Date(),
 				updatedAt: new Date(),
@@ -141,16 +143,34 @@ const Contact = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsSubmitting(true);
+		setSubmitStatus('idle');
 
-		// Simulate form submission
-		setTimeout(() => {
+		try {
+			const response = await fetch('/api/public/contact', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			});
+
+			const result = await response.json();
+
+			if (response.ok) {
+				setSubmitStatus('success');
+				setFormData({ name: '', email: '', subject: '', message: '' });
+			} else {
+				setSubmitStatus('error');
+				console.error('Form submission error:', result.error);
+			}
+		} catch (error) {
+			setSubmitStatus('error');
+			console.error('Form submission error:', error);
+		} finally {
 			setIsSubmitting(false);
-			setSubmitStatus('success');
-			setFormData({ name: '', email: '', subject: '', message: '' });
-
 			// Reset status after 3 seconds
 			setTimeout(() => setSubmitStatus('idle'), 3000);
-		}, 1000);
+		}
 	};
 
 	const contactInfo = [
@@ -389,23 +409,6 @@ const Contact = () => {
 										<span className="font-medium">{social.name}</span>
 									</a>
 								))}
-							</div>
-						</div>
-
-						{/* Newsletter */}
-						<div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-3xl p-8 text-white">
-							<h3 className="text-2xl font-bold mb-4">{contactData.newsletter.title}</h3>
-							<p className="mb-6 opacity-90">{contactData.newsletter.description}</p>
-
-							<div className="flex gap-3">
-								<input
-									type="email"
-									placeholder="Twój email"
-									className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
-								/>
-								<button className="bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors duration-300">
-									Zapisz się
-								</button>
 							</div>
 						</div>
 					</div>
