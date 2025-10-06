@@ -74,12 +74,12 @@ const Projects = () => {
 
 	const getProjectIcon = (iconName: string) => {
 		const iconMap: { [key: string]: any } = {
-			Users,
-			Globe,
-			Zap,
-			Heart,
-			BookOpen,
-			Calendar,
+			Users: Users,
+			Globe: Globe,
+			Zap: Zap,
+			Heart: Heart,
+			BookOpen: BookOpen,
+			Calendar: Calendar,
 		};
 		const IconComponent = iconMap[iconName] || Users;
 		return (
@@ -215,93 +215,38 @@ const Projects = () => {
 					<>
 						{/* Projects Grid */}
 						{projects.length > 0 ? (
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
-							{projects.map((project, index) => (
-								<ScrollAnimation
-									key={project._id || index}
-									animation="fadeInUp"
-									delay={0.4 + index * 0.1}
-									duration={0.6}>
-									<div className="bg-gray-50 rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-										{project.image && (
-											<div className="mb-6">
-												<img
-													src={project.image}
-													alt={project.title}
-													className="w-full h-48 object-cover rounded-xl"
-												/>
-											</div>
-										)}
-										<div className="mb-6">
-											<div className="flex items-center gap-3 mb-4">
-												{getProjectIcon(project.icon)}
-												<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
-													{project.category}
-												</span>
-											</div>
-											<h3 className="text-xl font-bold text-gray-900 mb-3">{project.title}</h3>
-											<p className="text-gray-600 leading-relaxed mb-4">{project.description}</p>
-										</div>
-
-										<div className="space-y-2 text-sm text-gray-500">
-											<div className="flex items-center gap-2">
-												<Users size={16} />
-												<span>{project.participants}</span>
-											</div>
-											<div className="flex items-center gap-2">
-												<Calendar size={16} />
-												<span>{project.duration}</span>
-											</div>
-										</div>
-									</div>
-								</ScrollAnimation>
-							))}
-						</div>
-
-						{/* Archive Projects */}
-						{allProjects.filter((project) => !project.isActive).length > 0 && (
-							<div className="mt-12 bg-gray-50 rounded-3xl p-8 md:p-12">
-								<div className="text-center mb-8">
-									<h3 className="text-3xl font-bold mb-4 text-gray-900">Archiwum projektów</h3>
-									<p className="text-xl text-gray-600">
-										Przypomnij sobie nasze zrealizowane inicjatywy i projekty
-									</p>
-								</div>
-
-								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-									{allProjects
-										.filter((project) => !project.isActive)
-										.slice(0, 6)
-										.map((project, index) => (
-											<div
-												key={project._id || index}
-												className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+							<>
+								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+									{projects.map((project, index) => (
+										<ScrollAnimation
+											key={project._id || index}
+											animation="fadeInUp"
+											delay={0.4 + index * 0.1}
+											duration={0.6}>
+											<div className="bg-gray-50 rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
 												{project.image && (
-													<div className="mb-4">
+													<div className="mb-6">
 														<img
 															src={project.image}
 															alt={project.title}
-															className="w-full h-32 object-cover rounded-xl"
+															className="w-full h-48 object-cover rounded-xl"
 														/>
 													</div>
 												)}
-												<div className="mb-4">
+												<div className="mb-6">
 													<div className="flex items-center gap-3 mb-4">
 														{getProjectIcon(project.icon)}
-														<span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">
+														<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
 															{project.category}
 														</span>
-														<span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-															Archiwum
-														</span>
 													</div>
-													<h3 className="text-lg font-bold text-gray-700 mb-3">{project.title}</h3>
-													<p className="text-gray-500 text-sm leading-relaxed mb-4">
+													<h3 className="text-xl font-bold text-gray-900 mb-3">{project.title}</h3>
+													<p className="text-gray-600 leading-relaxed mb-4">
 														{project.description}
 													</p>
 												</div>
 
-												<div className="space-y-2 text-sm text-gray-400">
+												<div className="space-y-2 text-sm text-gray-500">
 													<div className="flex items-center gap-2">
 														<Users size={16} />
 														<span>{project.participants}</span>
@@ -312,25 +257,93 @@ const Projects = () => {
 													</div>
 												</div>
 											</div>
-										))}
+										</ScrollAnimation>
+									))}
 								</div>
 
-								{allProjects.filter((project) => !project.isActive).length > 6 && (
-									<div className="text-center mt-8">
-										<button className="bg-primary-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-700 transition-colors duration-300 flex items-center gap-2 mx-auto">
-											Zobacz więcej projektów z archiwum
-											<ArrowRight size={20} />
-										</button>
+								{/* Archive Projects */}
+								{allProjects.filter((project) => !project.isActive).length > 0 && (
+									<div className="mt-12 bg-gray-50 rounded-3xl p-8 md:p-12">
+										<div className="text-center mb-8">
+											<h3 className="text-3xl font-bold mb-4 text-gray-900">Archiwum projektów</h3>
+											<p className="text-xl text-gray-600">
+												Przypomnij sobie nasze zrealizowane inicjatywy i projekty
+											</p>
+										</div>
+
+										<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+											{allProjects
+												.filter((project) => !project.isActive)
+												.slice(0, 6)
+												.map((project, index) => (
+													<div
+														key={project._id || index}
+														className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+														{project.image && (
+															<div className="mb-4">
+																<img
+																	src={project.image}
+																	alt={project.title}
+																	className="w-full h-32 object-cover rounded-xl"
+																/>
+															</div>
+														)}
+														<div className="mb-4">
+															<div className="flex items-center gap-3 mb-4">
+																{getProjectIcon(project.icon)}
+																<span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">
+																	{project.category}
+																</span>
+																<span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+																	Archiwum
+																</span>
+															</div>
+															<h3 className="text-lg font-bold text-gray-700 mb-3">
+																{project.title}
+															</h3>
+															<p className="text-gray-500 text-sm leading-relaxed mb-4">
+																{project.description}
+															</p>
+														</div>
+
+														<div className="space-y-2 text-sm text-gray-400">
+															<div className="flex items-center gap-2">
+																<Users size={16} />
+																<span>{project.participants}</span>
+															</div>
+															<div className="flex items-center gap-2">
+																<Calendar size={16} />
+																<span>{project.duration}</span>
+															</div>
+														</div>
+													</div>
+												))}
+										</div>
+
+										{allProjects.filter((project) => !project.isActive).length > 6 && (
+											<div className="text-center mt-8">
+												<button className="bg-primary-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-700 transition-colors duration-300 flex items-center gap-2 mx-auto">
+													Zobacz więcej projektów z archiwum
+													<ArrowRight size={20} />
+												</button>
+											</div>
+										)}
 									</div>
 								)}
-							</div>
-						</div>
+							</>
 						) : (
 							<div className="text-center py-12">
 								<div className="bg-gray-50 rounded-2xl p-8 max-w-md mx-auto">
-									<BookOpen className="mx-auto text-gray-400 mb-4" size={48} />
-									<h3 className="text-xl font-semibold text-gray-900 mb-2">Brak aktywnych projektów</h3>
-									<p className="text-gray-600">W tej chwili nie ma aktywnych projektów do wyświetlenia.</p>
+									<BookOpen
+										className="mx-auto text-gray-400 mb-4"
+										size={48}
+									/>
+									<h3 className="text-xl font-semibold text-gray-900 mb-2">
+										Brak aktywnych projektów
+									</h3>
+									<p className="text-gray-600">
+										W tej chwili nie ma aktywnych projektów do wyświetlenia.
+									</p>
 								</div>
 							</div>
 						)}
