@@ -435,9 +435,7 @@ const About = () => {
 				{/* Management Section */}
 				{aboutData.management.members.filter(member => 
 					member.name && 
-					member.name.trim() !== '' && 
-					member.position && 
-					member.position.trim() !== ''
+					member.name.trim() !== ''
 				).length > 0 && (
 				<div className="mt-16">
 					<div className="text-center mb-12">
@@ -451,9 +449,7 @@ const About = () => {
 						{aboutData.management.members
 							.filter(member => 
 								member.name && 
-								member.name.trim() !== '' && 
-								member.position && 
-								member.position.trim() !== ''
+								member.name.trim() !== ''
 							)
 							.map((member, index) => (
 							<div
@@ -474,29 +470,39 @@ const About = () => {
 										)}
 									</div>
 									<div className="mb-4">
-										<div className="flex items-center justify-center gap-2 mb-2">
-											<Crown
-												className="text-primary-600"
-												size={20}
-											/>
-											<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
-												{member.position}
-											</span>
-										</div>
+										{member.position && member.position.trim() !== '' && (
+											<div className="flex items-center justify-center gap-2 mb-2">
+												<Crown
+													className="text-primary-600"
+													size={20}
+												/>
+												<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
+													{member.position}
+												</span>
+											</div>
+										)}
 										<h4 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h4>
-										<p className="text-gray-600 leading-relaxed mb-4">{member.description}</p>
+										{member.description && member.description.trim() !== '' && (
+											<p className="text-gray-600 leading-relaxed mb-4">{member.description}</p>
+										)}
 									</div>
 
-									<div className="space-y-2 text-sm text-gray-500">
-										<div className="flex items-center gap-2">
-											<Briefcase size={16} />
-											<span>{member.experience}</span>
+									{(member.experience || member.education) && (
+										<div className="space-y-2 text-sm text-gray-500">
+											{member.experience && member.experience.trim() !== '' && (
+												<div className="flex items-center gap-2">
+													<Briefcase size={16} />
+													<span>{member.experience}</span>
+												</div>
+											)}
+											{member.education && member.education.trim() !== '' && (
+												<div className="flex items-center gap-2">
+													<GraduationCap size={16} />
+													<span>{member.education}</span>
+												</div>
+											)}
 										</div>
-										<div className="flex items-center gap-2">
-											<GraduationCap size={16} />
-											<span>{member.education}</span>
-										</div>
-									</div>
+									)}
 								</div>
 							</div>
 						))}
