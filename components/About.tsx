@@ -433,6 +433,12 @@ const About = () => {
 				</ScrollAnimation>
 
 				{/* Management Section */}
+				{aboutData.management.members.filter(member => 
+					member.name && 
+					member.name.trim() !== '' && 
+					member.position && 
+					member.position.trim() !== ''
+				).length > 0 && (
 				<div className="mt-16">
 					<div className="text-center mb-12">
 						<h3 className="text-3xl font-bold text-gray-900 mb-4">{aboutData.management.title}</h3>
@@ -442,7 +448,14 @@ const About = () => {
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						{aboutData.management.members.map((member, index) => (
+						{aboutData.management.members
+							.filter(member => 
+								member.name && 
+								member.name.trim() !== '' && 
+								member.position && 
+								member.position.trim() !== ''
+							)
+							.map((member, index) => (
 							<div
 								key={index}
 								className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -489,6 +502,7 @@ const About = () => {
 						))}
 					</div>
 				</div>
+				)}
 			</div>
 		</section>
 	);

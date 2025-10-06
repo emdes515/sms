@@ -214,6 +214,7 @@ const Projects = () => {
 				{activeTab === 'projects' && (
 					<>
 						{/* Projects Grid */}
+						{projects.length > 0 ? (
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
 							{projects.map((project, index) => (
 								<ScrollAnimation
@@ -322,6 +323,15 @@ const Projects = () => {
 										</button>
 									</div>
 								)}
+							</div>
+						</div>
+						) : (
+							<div className="text-center py-12">
+								<div className="bg-gray-50 rounded-2xl p-8 max-w-md mx-auto">
+									<BookOpen className="mx-auto text-gray-400 mb-4" size={48} />
+									<h3 className="text-xl font-semibold text-gray-900 mb-2">Brak aktywnych projektów</h3>
+									<p className="text-gray-600">W tej chwili nie ma aktywnych projektów do wyświetlenia.</p>
+								</div>
 							</div>
 						)}
 					</>
