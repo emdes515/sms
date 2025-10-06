@@ -13,3 +13,10 @@ test-*.js
 test-*.html
 cookies.txt
 *.md
+# Exclude all documentation files
+ADMIN_*.md
+MOBILE_*.md
+NOTIFICATION_*.md
+RESPONSIVE_*.md
+VERCEL_*.md
+EMOJI_*.md

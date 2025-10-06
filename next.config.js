@@ -9,10 +9,14 @@ const nextConfig = {
 	},
 	poweredByHeader: false,
 	compress: true,
-	// Disable SWC minification to avoid stack overflow
+	// Disable all build optimizations that cause stack overflow
 	swcMinify: false,
-	// Use standalone output for Vercel
-	output: 'standalone',
+	// Remove output: 'standalone' to avoid build traces
+	// output: 'standalone',
+	// Disable static optimization
+	generateStaticParams: false,
+	// Force dynamic rendering
+	forceSwcTransforms: false,
 };
 
 module.exports = nextConfig;
