@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
-import { unlink } from 'fs/promises';
-import { join } from 'path';
+import { del } from '@vercel/blob';
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
 	try {
@@ -15,12 +14,14 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 			return NextResponse.json({ error: 'Image not found' }, { status: 404 });
 		}
 
-		// Delete file from filesystem
+		// Delete file from Vercel Blob
 		try {
-			const filepath = join(process.cwd(), 'public', image.url);
-			await unlink(filepath);
+			if (image.blobUrl) {
+				await del(image.blobUrl);
+				console.log('File deleted from Vercel Blob:', image.blobUrl);
+			}
 		} catch (fileError) {
-			console.warn('Could not delete file from filesystem:', fileError);
+			console.warn('Could not delete file from Vercel Blob:', fileError);
 		}
 
 		// Delete from database

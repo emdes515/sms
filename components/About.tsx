@@ -101,7 +101,7 @@ const About = () => {
 								position: 'Prezes',
 								description:
 									'Absolwentka psychologii społecznej, od 5 lat zaangażowana w rozwój młodzieży',
-								image: '/uploads/1759587252678-ontjzbtf8e.jpg',
+								image: 'https://placeholder.com/300x300', // TODO: Replace with Vercel Blob URL
 								experience: '5 lat doświadczenia',
 								education: 'Psychologia społeczna UW',
 							},
@@ -225,7 +225,7 @@ const About = () => {
 							position: 'Prezes',
 							description:
 								'Absolwentka psychologii społecznej, od 5 lat zaangażowana w rozwój młodzieży',
-							image: '/uploads/1759587252678-ontjzbtf8e.jpg',
+							image: 'https://placeholder.com/300x300', // TODO: Replace with Vercel Blob URL
 							experience: '5 lat doświadczenia',
 							education: 'Psychologia społeczna UW',
 						},

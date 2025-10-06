@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/mongodb';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { existsSync } from 'fs';
+import { put, del } from '@vercel/blob';
 
 export async function GET() {
 	try {
@@ -46,26 +44,17 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json({ error: 'File size must be less than 5MB' }, { status: 400 });
 		}
 
-		// Create uploads directory if it doesn't exist
-		const uploadsDir = join(process.cwd(), 'public', 'uploads');
-		console.log('Uploads directory:', uploadsDir);
-		if (!existsSync(uploadsDir)) {
-			console.log('Creating uploads directory');
-			await mkdir(uploadsDir, { recursive: true });
-		}
-
 		// Generate unique filename
 		const timestamp = Date.now();
 		const fileExtension = file.name.split('.').pop();
-		const filename = `${timestamp}-${Math.random().toString(36).substring(2)}.${fileExtension}`;
-		const filepath = join(uploadsDir, filename);
-		console.log('Saving file to:', filepath);
+		const filename = `images/${timestamp}-${Math.random()
+			.toString(36)
+			.substring(2)}.${fileExtension}`;
+		console.log('Uploading file to Vercel Blob:', filename);
 
-		// Save file
-		const bytes = await file.arrayBuffer();
-		const buffer = Buffer.from(bytes);
-		await writeFile(filepath, buffer);
-		console.log('File saved successfully');
+		// Upload to Vercel Blob
+		const blob = await put(filename, file, { access: 'public' });
+		console.log('File uploaded to Vercel Blob successfully:', blob.url);
 
 		// Save to database
 		console.log('Connecting to database');
@@ -75,7 +64,8 @@ export async function POST(request: NextRequest) {
 			originalName: file.name,
 			title: title || file.name,
 			description: description || '',
-			url: `/uploads/${filename}`,
+			url: blob.url,
+			blobUrl: blob.url,
 			size: file.size,
 			mimeType: file.type,
 			createdAt: new Date(),
