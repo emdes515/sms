@@ -1,0 +1,15 @@
+node_modules
+.next
+.env.local
+.env
+*.log
+.DS_Store
+*.tsbuildinfo
+.git
+.gitignore
+README.md
+scripts/
+test-*.js
+test-*.html
+cookies.txt
+*.md

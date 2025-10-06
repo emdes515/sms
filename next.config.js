@@ -2,7 +2,6 @@
 const nextConfig = {
 	experimental: {
 		serverComponentsExternalPackages: ['fs', 'path'],
-		buildTrace: false,
 	},
 	images: {
 		domains: ['localhost'],
@@ -10,6 +9,10 @@ const nextConfig = {
 	},
 	poweredByHeader: false,
 	compress: true,
+	// Disable SWC minification to avoid stack overflow
+	swcMinify: false,
+	// Use standalone output for Vercel
+	output: 'standalone',
 };
 
 module.exports = nextConfig;
