@@ -15,7 +15,7 @@ const Target = () => {
 
 	const fetchTargetData = async () => {
 		try {
-			const response = await fetch('/api/public/target');
+			const response = await fetch(`/api/public/target?t=${Date.now()}`);
 			const data = await response.json();
 
 			if (data.targetData) {

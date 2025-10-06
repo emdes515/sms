@@ -32,7 +32,7 @@ const Contact = () => {
 
 	const fetchContactData = async () => {
 		try {
-			const response = await fetch('/api/public/contact');
+			const response = await fetch(`/api/public/contact?t=${Date.now()}`);
 			const data = await response.json();
 
 			if (data.contactData) {
@@ -146,7 +146,7 @@ const Contact = () => {
 		setSubmitStatus('idle');
 
 		try {
-			const response = await fetch('/api/public/contact', {
+			const response = await fetch(`/api/public/contact?t=${Date.now()}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

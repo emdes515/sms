@@ -14,7 +14,7 @@ const Partners = () => {
 
 	const fetchPartners = async () => {
 		try {
-			const response = await fetch('/api/public/partners');
+			const response = await fetch(`/api/public/partners?t=${Date.now()}`);
 			const data = await response.json();
 			setPartners(data || []);
 		} catch (error) {

@@ -18,7 +18,7 @@ const Hero = () => {
 
 	const fetchHeroData = async () => {
 		try {
-			const response = await fetch('/api/public/hero');
+			const response = await fetch(`/api/public/hero?t=${Date.now()}`);
 			const data = await response.json();
 
 			if (data.heroData) {
@@ -86,7 +86,7 @@ const Hero = () => {
 
 	const fetchContactData = async () => {
 		try {
-			const response = await fetch('/api/public/contact');
+			const response = await fetch(`/api/public/contact?t=${Date.now()}`);
 			const data = await response.json();
 			if (data.contactData) {
 				setContactData(data.contactData);

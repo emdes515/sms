@@ -31,13 +31,13 @@ const Projects = () => {
 				allWardsRes,
 				partnersRes,
 			] = await Promise.all([
-				fetch('/api/public/projects'),
-				fetch('/api/public/projects/all'),
-				fetch('/api/public/events'),
-				fetch('/api/public/events/all'),
-				fetch('/api/public/wards'),
-				fetch('/api/public/wards/all'),
-				fetch('/api/public/partners'),
+				fetch(`/api/public/projects?t=${Date.now()}`),
+				fetch(`/api/public/projects/all?t=${Date.now()}`),
+				fetch(`/api/public/events?t=${Date.now()}`),
+				fetch(`/api/public/events/all?t=${Date.now()}`),
+				fetch(`/api/public/wards?t=${Date.now()}`),
+				fetch(`/api/public/wards/all?t=${Date.now()}`),
+				fetch(`/api/public/partners?t=${Date.now()}`),
 			]);
 
 			const [
