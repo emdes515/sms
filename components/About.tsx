@@ -433,81 +433,78 @@ const About = () => {
 				</ScrollAnimation>
 
 				{/* Management Section */}
-				{aboutData.management.members.filter(member => 
-					member.name && 
-					member.name.trim() !== ''
-				).length > 0 && (
-				<div className="mt-16">
-					<div className="text-center mb-12">
-						<h3 className="text-3xl font-bold text-gray-900 mb-4">{aboutData.management.title}</h3>
-						<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-							{aboutData.management.description}
-						</p>
-					</div>
+				{aboutData.management.members.filter((member) => member.name && member.name.trim() !== '')
+					.length > 0 && (
+					<div className="mt-16">
+						<div className="text-center mb-12">
+							<h3 className="text-3xl font-bold text-gray-900 mb-4">
+								{aboutData.management.title}
+							</h3>
+							<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+								{aboutData.management.description}
+							</p>
+						</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						{aboutData.management.members
-							.filter(member => 
-								member.name && 
-								member.name.trim() !== ''
-							)
-							.map((member, index) => (
-							<div
-								key={index}
-								className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-								<div className="text-center">
-									<div className="mb-4">
-										{member.image && member.image.startsWith('/') ? (
-											<img
-												src={member.image}
-												alt={member.name}
-												className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-primary-100 shadow-lg"
-											/>
-										) : (
-											<div className="w-24 h-24 rounded-full bg-primary-100 flex items-center justify-center mx-auto border-4 border-primary-200">
-												<span className="text-4xl">{member.image || '👤'}</span>
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+							{aboutData.management.members
+								.filter((member) => member.name && member.name.trim() !== '')
+								.map((member, index) => (
+									<div
+										key={index}
+										className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+										<div className="text-center">
+											<div className="mb-4">
+												{member.image && (member.image.startsWith('/') || member.image.startsWith('http')) ? (
+													<img
+														src={member.image}
+														alt={member.name}
+														className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-primary-100 shadow-lg"
+													/>
+												) : (
+													<div className="w-24 h-24 rounded-full bg-primary-100 flex items-center justify-center mx-auto border-4 border-primary-200">
+														<span className="text-4xl">{member.image || '👤'}</span>
+													</div>
+												)}
 											</div>
-										)}
-									</div>
-									<div className="mb-4">
-										{member.position && member.position.trim() !== '' && (
-											<div className="flex items-center justify-center gap-2 mb-2">
-												<Crown
-													className="text-primary-600"
-													size={20}
-												/>
-												<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
-													{member.position}
-												</span>
+											<div className="mb-4">
+												{member.position && member.position.trim() !== '' && (
+													<div className="flex items-center justify-center gap-2 mb-2">
+														<Crown
+															className="text-primary-600"
+															size={20}
+														/>
+														<span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
+															{member.position}
+														</span>
+													</div>
+												)}
+												<h4 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h4>
+												{member.description && member.description.trim() !== '' && (
+													<p className="text-gray-600 leading-relaxed mb-4">{member.description}</p>
+												)}
 											</div>
-										)}
-										<h4 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h4>
-										{member.description && member.description.trim() !== '' && (
-											<p className="text-gray-600 leading-relaxed mb-4">{member.description}</p>
-										)}
-									</div>
 
-									{(member.experience || member.education) && (
-										<div className="space-y-2 text-sm text-gray-500">
-											{member.experience && member.experience.trim() !== '' && (
-												<div className="flex items-center gap-2">
-													<Briefcase size={16} />
-													<span>{member.experience}</span>
-												</div>
-											)}
-											{member.education && member.education.trim() !== '' && (
-												<div className="flex items-center gap-2">
-													<GraduationCap size={16} />
-													<span>{member.education}</span>
+											{(member.experience || member.education) && (
+												<div className="space-y-2 text-sm text-gray-500">
+													{member.experience && member.experience.trim() !== '' && (
+														<div className="flex items-center gap-2">
+															<Briefcase size={16} />
+															<span>{member.experience}</span>
+														</div>
+													)}
+													{member.education && member.education.trim() !== '' && (
+														<div className="flex items-center gap-2">
+															<GraduationCap size={16} />
+															<span>{member.education}</span>
+														</div>
+													)}
 												</div>
 											)}
 										</div>
-									)}
-								</div>
-							</div>
-						))}
+									</div>
+								))}
+						</div>
 					</div>
-				</div>
 				)}
 			</div>
 		</section>
