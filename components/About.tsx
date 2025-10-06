@@ -30,10 +30,6 @@ const About = () => {
 			const response = await fetch(`/api/public/about?t=${Date.now()}`);
 			const data = await response.json();
 
-			console.log('About API Response:', data);
-			console.log('About data exists:', !!data.aboutData);
-			console.log('Management members count:', data.aboutData?.management?.members?.length || 0);
-
 			if (data.aboutData) {
 				setAboutData(data.aboutData);
 			} else {
