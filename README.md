@@ -113,3 +113,4 @@ Projekt stworzony dla Stowarzyszenia Młoda Siła.
 ## 🤝 Wsparcie
 
 W przypadku pytań lub problemów, skontaktuj się z zespołem deweloperskim.
+# Trigger deployment
