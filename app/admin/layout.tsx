@@ -60,6 +60,11 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 		}
 	};
 
+	// Skip auth check for login page - check if we're on login page
+	if (typeof window !== 'undefined' && window.location.pathname === '/admin/login') {
+		return <>{children}</>;
+	}
+
 	if (loading) {
 		return (
 			<div className="min-h-screen flex items-center justify-center bg-gray-50">

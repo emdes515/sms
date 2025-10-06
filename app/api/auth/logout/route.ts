@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST() {
 	try {
 		const cookieStore = cookies();
@@ -12,4 +14,3 @@ export async function POST() {
 		return NextResponse.json({ message: 'Wystąpił błąd podczas wylogowywania' }, { status: 500 });
 	}
 }
-

@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
 	// Check if the route is an admin route
 	if (pathname.startsWith('/admin')) {
 		// Allow access to login page
-		if (pathname === '/admin/login') {
+		if (pathname === '/admin/login' || pathname === '/login') {
 			return NextResponse.next();
 		}
 
@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
 		const adminSession = request.cookies.get('admin-session');
 
 		if (!adminSession || adminSession.value !== 'authenticated') {
-			return NextResponse.redirect(new URL('/admin/login', request.url));
+			return NextResponse.redirect(new URL('/login', request.url));
 		}
 	}
 

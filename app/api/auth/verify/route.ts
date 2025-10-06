@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
 	try {
 		const cookieStore = cookies();
@@ -16,4 +18,3 @@ export async function GET() {
 		return NextResponse.json({ authenticated: false }, { status: 401 });
 	}
 }
-

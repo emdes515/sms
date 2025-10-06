@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 const ADMIN_PIN = process.env.ADMIN_PIN || '12345678901'; // 11-cyfrowy PIN
 
 export async function POST(request: NextRequest) {
@@ -29,4 +31,3 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ message: 'Wystąpił błąd podczas logowania' }, { status: 500 });
 	}
 }
-
