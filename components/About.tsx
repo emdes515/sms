@@ -454,7 +454,8 @@ const About = () => {
 										className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
 										<div className="text-center">
 											<div className="mb-4">
-												{member.image && (member.image.startsWith('/') || member.image.startsWith('http')) ? (
+												{member.image &&
+												(member.image.startsWith('/') || member.image.startsWith('http')) ? (
 													<img
 														src={member.image}
 														alt={member.name}
