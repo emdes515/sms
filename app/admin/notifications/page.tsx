@@ -81,7 +81,7 @@ const NotificationSettingsPage = () => {
 				return {
 					...prev,
 					[parent]: {
-						...prev[parent as keyof NotificationSettings],
+						...(prev[parent as keyof NotificationSettings] as any || {}),
 						[child]: value,
 					},
 				};

@@ -72,6 +72,34 @@ interface HeroData {
 	updatedAt: Date;
 }
 
+
+const sampleProjects: Project[] = [
+	{
+		title: 'Projekt Młodzieżowy',
+		description: 'Inicjatywa skierowana do młodych ludzi w wieku 16-25 lat',
+		category: 'Edukacja',
+		participants: '20-30 osób',
+		duration: '6 miesięcy',
+		icon: 'Users',
+		color: 'blue',
+		isActive: true,
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		title: 'Warsztaty Umiejętności',
+		description: 'Cykl warsztatów rozwijających kompetencje miękkie',
+		category: 'Rozwój',
+		participants: '15-25 osób',
+		duration: '3 miesiące',
+		icon: 'BookOpen',
+		color: 'green',
+		isActive: true,
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	}
+];
+
 async function initializeDatabase() {
 	const client = new MongoClient(MONGODB_URI);
 

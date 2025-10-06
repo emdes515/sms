@@ -195,3 +195,5 @@ Komponent używa Tailwind CSS i można go stylować przez:
 - **Accessibility**: Pełne wsparcie dla dostępności
 - **Cross-browser**: Działa we wszystkich nowoczesnych przeglądarkach
 
+
+

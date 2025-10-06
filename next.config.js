@@ -4,6 +4,16 @@ const nextConfig = {
 	experimental: {
 		serverComponentsExternalPackages: ['fs', 'path'],
 	},
+	// Vercel optimizations
+	images: {
+		domains: ['localhost'],
+		formats: ['image/webp', 'image/avif'],
+	},
+	// Enable static exports for better performance
+	output: 'standalone',
+	// Optimize for Vercel
+	poweredByHeader: false,
+	compress: true,
 };
 
 module.exports = nextConfig;

@@ -1,5 +1,5 @@
-import { getDatabase } from '../mongodb';
-
+import { getDatabase } from "../mongodb";
+import { ObjectId } from "mongodb";
 export interface Project {
 	_id?: string;
 	title: string;
@@ -255,7 +255,7 @@ export const createProject = async (
 	};
 
 	const result = await projects.insertOne(newProject);
-	return { ...newProject, _id: result.insertedId.toString() };
+	return { ...newProject, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateProject = async (
@@ -264,13 +264,13 @@ export const updateProject = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const projects = db.collection<Project>('projects');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from projectData to avoid updating immutable field
 	const { _id, ...updateData } = projectData as any;
 
 	await projects.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -278,9 +278,9 @@ export const updateProject = async (
 export const deleteProject = async (id: string): Promise<void> => {
 	const db = await getDatabase();
 	const projects = db.collection<Project>('projects');
-	const { ObjectId } = await import('mongodb');
+	
 	await projects.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { isActive: false, updatedAt: new Date() } }
 	);
 };
@@ -319,7 +319,7 @@ export const createEvent = async (
 	};
 
 	const result = await events.insertOne(newEvent);
-	return { ...newEvent, _id: result.insertedId.toString() };
+	return { ...newEvent, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateEvent = async (
@@ -328,13 +328,13 @@ export const updateEvent = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const events = db.collection<Event>('events');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from eventData to avoid updating immutable field
 	const { _id, ...updateData } = eventData as any;
 
 	await events.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -342,9 +342,9 @@ export const updateEvent = async (
 export const deleteEvent = async (id: string): Promise<void> => {
 	const db = await getDatabase();
 	const events = db.collection<Event>('events');
-	const { ObjectId } = await import('mongodb');
+	
 	await events.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { isActive: false, updatedAt: new Date() } }
 	);
 };
@@ -373,7 +373,7 @@ export const createPartner = async (
 	};
 
 	const result = await partners.insertOne(newPartner);
-	return { ...newPartner, _id: result.insertedId.toString() };
+	return { ...newPartner, _id: result.insertedId?.toString() || "" };
 };
 
 export const updatePartner = async (
@@ -382,13 +382,13 @@ export const updatePartner = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const partners = db.collection<Partner>('partners');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from partnerData to avoid updating immutable field
 	const { _id, ...updateData } = partnerData as any;
 
 	await partners.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -396,9 +396,9 @@ export const updatePartner = async (
 export const deletePartner = async (id: string): Promise<void> => {
 	const db = await getDatabase();
 	const partners = db.collection<Partner>('partners');
-	const { ObjectId } = await import('mongodb');
+	
 	await partners.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { isActive: false, updatedAt: new Date() } }
 	);
 };
@@ -427,7 +427,7 @@ export const createContactMessage = async (
 	};
 
 	const result = await messages.insertOne(newMessage);
-	return { ...newMessage, _id: result.insertedId.toString() };
+	return { ...newMessage, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateContactMessage = async (
@@ -436,13 +436,13 @@ export const updateContactMessage = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const messages = db.collection<ContactMessage>('contact_messages');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from messageData to avoid updating immutable field
 	const { _id, ...updateData } = messageData as any;
 
 	await messages.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -450,8 +450,8 @@ export const updateContactMessage = async (
 export const deleteContactMessage = async (id: string): Promise<void> => {
 	const db = await getDatabase();
 	const messages = db.collection<ContactMessage>('contact_messages');
-	const { ObjectId } = await import('mongodb');
-	await messages.deleteOne({ _id: new ObjectId(id) });
+	
+	await messages.deleteOne({ _id: new ObjectId(id) as any });
 };
 
 // Hero Data
@@ -480,7 +480,7 @@ export const createHeroData = async (
 	};
 
 	const result = await heroCollection.insertOne(newHeroData);
-	return { ...newHeroData, _id: result.insertedId.toString() };
+	return { ...newHeroData, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateHeroData = async (
@@ -489,13 +489,13 @@ export const updateHeroData = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const heroCollection = db.collection<HeroData>('hero_data');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from heroData to avoid updating immutable field
 	const { _id, ...updateData } = heroData as any;
 
 	await heroCollection.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -526,7 +526,7 @@ export const createAboutData = async (
 	};
 
 	const result = await aboutCollection.insertOne(newAboutData);
-	return { ...newAboutData, _id: result.insertedId.toString() };
+	return { ...newAboutData, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateAboutData = async (
@@ -535,13 +535,13 @@ export const updateAboutData = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const aboutCollection = db.collection<AboutData>('about_data');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from aboutData to avoid updating immutable field
 	const { _id, ...updateData } = aboutData as any;
 
 	await aboutCollection.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -572,7 +572,7 @@ export const createContactData = async (
 	};
 
 	const result = await contactCollection.insertOne(newContactData);
-	return { ...newContactData, _id: result.insertedId.toString() };
+	return { ...newContactData, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateContactData = async (
@@ -581,13 +581,13 @@ export const updateContactData = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const contactCollection = db.collection<ContactData>('contact_data');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from contactData to avoid updating immutable field
 	const { _id, ...updateData } = contactData as any;
 
 	await contactCollection.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -618,7 +618,7 @@ export const createTargetData = async (
 	};
 
 	const result = await targetCollection.insertOne(newTargetData);
-	return { ...newTargetData, _id: result.insertedId.toString() };
+	return { ...newTargetData, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateTargetData = async (
@@ -627,13 +627,13 @@ export const updateTargetData = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const targetCollection = db.collection<TargetData>('target_data');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from targetData to avoid updating immutable field
 	const { _id, ...updateData } = targetData as any;
 
 	await targetCollection.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -664,7 +664,7 @@ export const createFooterData = async (
 	};
 
 	const result = await footerCollection.insertOne(newFooterData);
-	return { ...newFooterData, _id: result.insertedId.toString() };
+	return { ...newFooterData, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateFooterData = async (
@@ -673,13 +673,13 @@ export const updateFooterData = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const footerCollection = db.collection<FooterData>('footer_data');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from footerData to avoid updating immutable field
 	const { _id, ...updateData } = footerData as any;
 
 	await footerCollection.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -718,7 +718,7 @@ export const createWard = async (
 	};
 
 	const result = await wards.insertOne(newWard);
-	return { ...newWard, _id: result.insertedId.toString() };
+	return { ...newWard, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateWard = async (
@@ -727,13 +727,13 @@ export const updateWard = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const wards = db.collection<Ward>('wards');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from wardData to avoid updating immutable field
 	const { _id, ...updateData } = wardData as any;
 
 	await wards.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };
@@ -741,9 +741,9 @@ export const updateWard = async (
 export const deleteWard = async (id: string): Promise<void> => {
 	const db = await getDatabase();
 	const wards = db.collection<Ward>('wards');
-	const { ObjectId } = await import('mongodb');
+	
 	await wards.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { isActive: false, updatedAt: new Date() } }
 	);
 };
@@ -777,7 +777,7 @@ export const createNotificationSettings = async (
 	};
 
 	const result = await settingsCollection.insertOne(newSettings);
-	return { ...newSettings, _id: result.insertedId.toString() };
+	return { ...newSettings, _id: result.insertedId?.toString() || "" };
 };
 
 export const updateNotificationSettings = async (
@@ -786,13 +786,13 @@ export const updateNotificationSettings = async (
 ): Promise<void> => {
 	const db = await getDatabase();
 	const settingsCollection = db.collection<NotificationSettings>('notification_settings');
-	const { ObjectId } = await import('mongodb');
+	
 
 	// Remove _id from settingsData to avoid updating immutable field
 	const { _id, ...updateData } = settingsData as any;
 
 	await settingsCollection.updateOne(
-		{ _id: new ObjectId(id) },
+		{ _id: new ObjectId(id) as any },
 		{ $set: { ...updateData, updatedAt: new Date() } }
 	);
 };

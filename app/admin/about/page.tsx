@@ -214,6 +214,12 @@ export default function AboutAdminPage() {
 					},
 				],
 			},
+			carousel: {
+				enabled: true,
+				autoplay: true,
+				autoplaySpeed: 5000,
+				images: [],
+			},
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		};
