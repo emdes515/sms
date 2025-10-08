@@ -15,26 +15,13 @@ const Projects = () => {
 	const [allWards, setAllWards] = useState<Ward[]>([]);
 	const [partners, setPartners] = useState<Partner[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
 
 	useEffect(() => {
 		fetchData();
-
-		// Auto-refresh data every 30 seconds
-		const interval = setInterval(() => {
-			fetchData(true); // Silent refresh
-		}, 30000);
-
-		return () => clearInterval(interval);
 	}, []);
 
-	const fetchData = async (silent = false) => {
+	const fetchData = async () => {
 		try {
-			if (!silent) {
-				setLoading(true);
-			}
-
-			const timestamp = Date.now();
 			const [
 				projectsRes,
 				allProjectsRes,
@@ -44,13 +31,13 @@ const Projects = () => {
 				allWardsRes,
 				partnersRes,
 			] = await Promise.all([
-				fetch(`/api/public/projects?t=${timestamp}`),
-				fetch(`/api/public/projects/all?t=${timestamp}`),
-				fetch(`/api/public/events?t=${timestamp}`),
-				fetch(`/api/public/events/all?t=${timestamp}`),
-				fetch(`/api/public/wards?t=${timestamp}`),
-				fetch(`/api/public/wards/all?t=${timestamp}`),
-				fetch(`/api/public/partners?t=${timestamp}`),
+				fetch(`/api/public/projects?t=${Date.now()}`),
+				fetch(`/api/public/projects/all?t=${Date.now()}`),
+				fetch(`/api/public/events?t=${Date.now()}`),
+				fetch(`/api/public/events/all?t=${Date.now()}`),
+				fetch(`/api/public/wards?t=${Date.now()}`),
+				fetch(`/api/public/wards/all?t=${Date.now()}`),
+				fetch(`/api/public/partners?t=${Date.now()}`),
 			]);
 
 			const [
@@ -78,13 +65,10 @@ const Projects = () => {
 			setWards(wardsData || []);
 			setAllWards(allWardsData || []);
 			setPartners(partnersData || []);
-			setLastRefresh(new Date());
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		} finally {
-			if (!silent) {
-				setLoading(false);
-			}
+			setLoading(false);
 		}
 	};
 
@@ -133,24 +117,11 @@ const Projects = () => {
 					animation="fadeInUp"
 					delay={0.2}>
 					<div className="text-center mb-16">
-						<div className="flex justify-center items-center gap-4 mb-6">
-							<h2 className="text-4xl md:text-5xl font-bold text-gray-900">Nasze działania</h2>
-							<button
-								onClick={() => fetchData()}
-								className="p-2 text-gray-500 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors duration-200"
-								title="Odśwież dane">
-								<RefreshCw size={24} />
-							</button>
-						</div>
-						<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
+						<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nasze działania</h2>
+						<p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
 							Realizujemy różnorodne projekty i inicjatywy, które rozwijają umiejętności młodych
 							ludzi i pozytywnie wpływają na społeczność lokalną.
 						</p>
-						{lastRefresh && (
-							<p className="text-sm text-gray-400">
-								Ostatnie odświeżenie: {lastRefresh.toLocaleTimeString('pl-PL')}
-							</p>
-						)}
 
 						{/* Tabs */}
 						<div className="flex justify-center">
