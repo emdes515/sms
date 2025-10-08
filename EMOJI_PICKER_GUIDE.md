@@ -197,3 +197,5 @@ Komponent używa Tailwind CSS i można go stylować przez:
 
 
 
+
+
